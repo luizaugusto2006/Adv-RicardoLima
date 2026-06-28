@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x4iw(ect3(zny6lu@e*ede%*tqx6ecctz8)b=_u2%5%njgu8ib'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['advrl.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -115,5 +115,5 @@ USE_TZ = True
 import os
 
 STATIC_URL = 'static/'
-# Esta linha avisa ao Django para procurar os arquivos na pasta static que criamos
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'processos/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
