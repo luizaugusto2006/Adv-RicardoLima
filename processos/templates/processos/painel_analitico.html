@@ -1,0 +1,86 @@
+{% extends 'processos/base.html' %}
+{% load static %}
+
+{% block titulo %}Painel Analítico - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-secondary mb-0">
+            <i class="fas fa-chart-pie me-2" style="color: #D4AF37;"></i> Inteligência de Dados
+        </h3>
+        <span class="badge bg-secondary-subtle text-secondary px-3 py-2 border">Módulo Analítico</span>
+    </div>
+
+    <div class="card shadow-sm border-0" style="border-radius: 12px; background-color: #ffffff; min-height: 400px;">
+        <div class="card-body d-flex justify-content-center align-items-center" style="position: relative; height: 350px; width: 100%;">
+            
+            {% if dados_status.ativos or dados_status.encerrados or dados_status.substabelecidos or dados_status.desistencias or dados_status.arquivados %}
+                
+                <canvas id="graficoStatusProcessos"></canvas>
+
+            {% else %}
+                
+                <div class="text-center py-4">
+                    <div class="text-muted mb-3">
+                        <i class="fas fa-folder-open" style="font-size: 2.5rem; opacity: 0.4; color: #765C48;"></i>
+                    </div>
+                    <p class="text-muted mb-3 fs-6">Nenhum processo localizado para gerar os indicadores gráficos.</p>
+                    <a href="{% url 'cadastrar_processo' %}" class="btn btn-sm text-white px-3" style="border-radius: 20px; background-color: #2B1E16;">
+                        + Cadastrar Primeiro Processo
+                    </a>
+                </div>
+
+            {% endif %}
+            
+        </div>
+    </div>
+</div>
+
+{% if dados_status.ativos or dados_status.encerrados or dados_status.substabelecidos or dados_status.desistencias or dados_status.arquivados %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('graficoStatusProcessos').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'doughnut', // Gráfico tipo Rosca
+            data: {
+                labels: ['Ativos', 'Encerrados', 'Substabelecidos', 'Desistências', 'Arquivados'],
+                datasets: [{
+                    data: [
+                        {{ dados_status.ativos|default:0 }},
+                        {{ dados_status.encerrados|default:0 }},
+                        {{ dados_status.substabelecidos|default:0 }},
+                        {{ dados_status.desistencias|default:0 }},
+                        {{ dados_status.arquivados|default:0 }}
+                    ],
+                    backgroundColor: [
+                        '#2B1E16', // Marrom institucional (Ativos)
+                        '#D4AF37', // Dourado corporativo (Encerrados)
+                        '#765C48', // Marrom médio (Substabelecidos)
+                        '#A1A1AA', // Cinza claro (Desistências)
+                        '#4B5563'  // Cinza escuro (Arquivados)
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: { size: 14, family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif" }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}

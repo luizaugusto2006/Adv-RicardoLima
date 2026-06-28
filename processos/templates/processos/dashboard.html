@@ -1,0 +1,132 @@
+{% extends 'processos/base.html' %}
+{% load static %}
+
+{% block titulo %}Painel de Controle - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<style>
+    .dashboard-clean-bg {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .brand-center-wrapper {
+        text-align: center;
+        max-width: 480px;
+        width: 85%;
+        padding-bottom: 40px;
+    }
+
+    .brand-center-wrapper img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .brand-center-wrapper p {
+        color: #6c757d;
+        font-size: 0.95rem;
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+
+    .brand-center-wrapper .gold-divider {
+        width: 60px;
+        height: 3px;
+        background-color: #D4AF37;
+        margin: 20px auto;
+    }
+
+    .btn-gold {
+        background-color: #D4AF37;
+        color: #2B1E16;
+        font-weight: 700;
+        border: 2px solid #D4AF37;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-gold:hover {
+        background-color: #2B1E16;
+        color: #D4AF37;
+        border-color: #2B1E16;
+    }
+</style>
+
+<div class="container-fluid dashboard-clean-bg">
+    <div class="brand-center-wrapper">
+        <img src="{% static 'processos/imagens/logo.png' %}" alt="Ricardo Lima Advogados Associados">
+        <div class="gold-divider"></div>
+        <p class="text-muted">Sistema de Gestão de Processos Trabalhistas</p>
+        <button class="btn btn-gold mt-2" type="button" data-bs-toggle="modal" data-bs-target="#modalSobre">
+            <i class="fas fa-info-circle me-1"></i> Sobre o Escritório
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSobre" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;">
+                    <i class="fas fa-gavel me-2 text-warning"></i>Ricardo Lima Advogados Associados
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="col-md-5 text-center mb-3">
+                        <img src="{% static 'processos/imagens/logo.png' %}" alt="Logo" class="img-fluid" style="max-height: 150px;">
+                    </div>
+                    <div class="col-md-7">
+                        <h6 style="color: #2B1E16; font-weight: 700;">Excelência em Direito Trabalhista</h6>
+                        <p class="text-muted small" style="text-align: justify;">
+                            O escritório <strong>Ricardo Lima Advogados Associados</strong> atua com excelência no 
+                            Direito Trabalhista, oferecendo assessoria jurídica completa para empresas e trabalhadores. 
+                            Com uma equipe altamente especializada, buscamos a melhor solução para cada caso, 
+                            priorizando o diálogo e a estratégia processual.
+                        </p>
+                        <p class="text-muted small" style="text-align: justify;">
+                            Nosso compromisso é com a justiça e a transparência, mantendo nossos clientes 
+                            sempre informados sobre o andamento de seus processos. Este sistema foi desenvolvido 
+                            para otimizar a gestão de demandas, proporcionando agilidade e segurança no 
+                            acompanhamento processual.
+                        </p>
+                    </div>
+                </div>
+                <div class="border-top pt-3 mt-3">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <i class="fas fa-balance-scale" style="color: #D4AF37; font-size: 1.5rem;"></i>
+                            <p class="small text-muted mt-1 mb-0"><strong>Missão</strong></p>
+                            <p class="small text-muted">Defender direitos com ética e dedicação</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-eye" style="color: #D4AF37; font-size: 1.5rem;"></i>
+                            <p class="small text-muted mt-1 mb-0"><strong>Visão</strong></p>
+                            <p class="small text-muted">Ser referência em Direito Trabalhista</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-handshake" style="color: #D4AF37; font-size: 1.5rem;"></i>
+                            <p class="small text-muted mt-1 mb-0"><strong>Valores</strong></p>
+                            <p class="small text-muted">Transparência e compromisso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #f8f9fa;">
+                <small class="text-muted">&copy; 2026 Ricardo Lima Advogados Associados - Todos os direitos reservados.</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

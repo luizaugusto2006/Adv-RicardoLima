@@ -1,0 +1,106 @@
+{% extends 'processos/base.html' %}
+
+{% block titulo %}Processo {{ processo.numero_processo }} - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<style>
+    .style-quote { white-space: pre-line; }
+    .btn-gold { background-color: #D4AF37; color: #2B1E16; font-weight: 700; border: 2px solid #D4AF37; transition: all 0.2s ease; }
+    .btn-gold:hover { background-color: #2B1E16; color: #D4AF37; border-color: #2B1E16; }
+</style>
+
+<div class="container px-4 py-4">
+
+    <div class="mb-3">
+        <a href="{% url 'buscar_processos' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Voltar para a Busca
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px; overflow: hidden;">
+        <div class="p-4 text-white d-flex justify-content-between align-items-center" style="background-color: #2B1E16; border-bottom: 3px solid #D4AF37;">
+            <div>
+                <span class="badge bg-warning text-dark mb-2 py-1.5 px-3 text-uppercase fw-bold">{{ processo.get_status_display }}</span>
+                <h4 class="fw-bold mb-0">Processo Nº {{ processo.numero_processo }}</h4>
+            </div>
+            <div class="text-end d-none d-sm-block">
+                <i class="fas fa-gavel fa-2x" style="color: #D4AF37; opacity: 0.8;"></i>
+            </div>
+        </div>
+
+        <div class="card-body bg-white p-4">
+            <div class="row g-4">
+                <div class="col-md-6 border-end">
+                    <h5 class="fw-bold text-secondary mb-3 border-bottom pb-2"><i class="fas fa-user-circle me-1" style="color: #D4AF37;"></i> Partes Envolvidas</h5>
+                    <p class="mb-2"><strong>Cliente / Autor:</strong> <span class="text-dark">{{ processo.cliente.nome }}</span></p>
+                    <p class="mb-2"><strong>Advogado Patrono:</strong> <span class="text-dark">{{ processo.advogado.nome }}</span></p>
+                    <p class="mb-2"><strong>Juízo / Juiz Magister:</strong> <span class="text-dark">{{ processo.juiz.nome }}</span></p>
+                    <p class="mb-0"><strong>Fórum / Vara:</strong> <span class="text-dark">{{ processo.forum.nome|default:"Não informado" }}</span></p>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="fw-bold text-secondary mb-3 border-bottom pb-2"><i class="fas fa-gavel me-1" style="color: #D4AF37;"></i> Resumo da Sentença / Objeto</h5>
+                    <div class="p-3 bg-light rounded text-muted style-quote" style="border-left: 4px solid #2B1E16; min-height: 100px;">
+                        {{ processo.resumo_sentenca|linebreaks|default:"Nenhuma especificação ou sentença anexada a este processo até o momento." }}
+                    </div>
+                    {% if processo.forum %}
+                    <div class="mt-3 p-3 bg-light rounded" style="border-left: 4px solid #D4AF37;">
+                        <small class="text-muted"><strong>Fórum:</strong> {{ processo.forum.nome }} {% if processo.forum.cidade %} - {{ processo.forum.cidade }}/{{ processo.forum.uf }}{% endif %}</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-4 border-0 mb-4" style="border-radius: 12px; background-color: #ffffff;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0" style="color: #2B1E16;">
+                <i class="fas fa-history me-1" style="color: #D4AF37;"></i> Histórico de Andamentos Processuais
+            </h5>
+            <button class="btn btn-sm btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNovoAndamento" aria-expanded="false" style="background-color: #2B1E16; border: 1px solid #D4AF37;">
+                <i class="fas fa-plus me-1 text-warning"></i> Lançar Andamento
+            </button>
+        </div>
+
+        <div class="collapse mb-4" id="collapseNovoAndamento">
+            <div class="card card-body border-light-subtle bg-light-subtle p-3" style="border-radius: 8px; border-left: 4px solid #D4AF37;">
+                <h6 class="fw-bold text-dark mb-3"><i class="fas fa-pen-nib me-1 text-secondary"></i> Registrar Nova Movimentação</h6>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-secondary">Data do Evento</label>
+                            <input type="date" name="data_evento" class="form-control form-control-sm" value="{{ data_hoje }}" required>
+                        </div>
+                        <div class="col-md-9">
+                            <label class="form-label small fw-bold text-secondary">Descrição da Ocorrência / Publicação</label>
+                            <textarea name="descricao_evento" class="form-control form-control-sm" rows="2" placeholder="Ex: Juntada de petição de contrarrazões efetuada..." required></textarea>
+                        </div>
+                        <div class="col-md-12 text-end mt-2">
+                            <button type="submit" name="salvar_andamento" class="btn btn-sm btn-success px-3 fw-bold">
+                                <i class="fas fa-check me-1"></i> Gravar no Histórico
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="position-relative ps-3" style="border-left: 2px solid rgba(43, 30, 22, 0.15);">
+            {% for andamento in andamentos %}
+                <div class="mb-4 position-relative">
+                    <div class="position-absolute" style="left: -23px; top: 4px; width: 12px; height: 12px; background-color: #D4AF37; border-radius: 50%; border: 2px solid #ffffff; box-shadow: 0 0 0 2px #2B1E16;"></div>
+                    <div class="ms-2">
+                        <span class="badge bg-secondary-subtle text-secondary mb-1">{{ andamento.data|date:"d/m/Y" }}</span>
+                        <p class="text-dark mb-0 bg-light p-3 rounded border" style="font-size: 0.95rem; white-space: pre-line;">{{ andamento.descricao }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted small ps-2 mb-0">Nenhuma movimentação foi registrada para este processo ainda.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

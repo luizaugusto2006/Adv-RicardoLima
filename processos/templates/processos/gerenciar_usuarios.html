@@ -1,0 +1,141 @@
+{% extends "processos/base.html" %}
+{% load static %}
+
+{% block titulo %}Gerenciar Usuários - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<style>
+    .page-wrapper {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 100px);
+        padding: 40px 20px;
+    }
+    .dashboard-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+    .card-header-gold {
+        background-color: #2B1E16;
+        color: #ffffff;
+        padding: 16px 24px;
+        border-bottom: 3px solid #D4AF37;
+        font-family: 'Georgia', serif;
+    }
+    .btn-gold {
+        background-color: #D4AF37;
+        color: #2B1E16;
+        font-weight: 700;
+        border: 2px solid #D4AF37;
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-gold:hover {
+        background-color: #2B1E16;
+        color: #D4AF37;
+        border-color: #2B1E16;
+    }
+    .form-control:focus {
+        border-color: #D4AF37;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="dashboard-card">
+            <div class="card-header-gold d-flex justify-content-between align-items-center">
+                <span class="fs-5"><i class="fas fa-user-cog me-2 text-warning"></i>Gerenciar Usuários</span>
+            </div>
+            <div class="card-body p-4">
+                <button class="btn btn-gold mb-4" type="button" data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
+                    <i class="fas fa-plus me-1"></i> Novo Usuário
+                </button>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Superuser</th>
+                                <th>Ativo</th>
+                                <th>Data Cadastro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in usuarios %}
+                            <tr>
+                                <td class="fw-bold">{{ user.username }}</td>
+                                <td>{{ user.get_full_name|default:"-" }}</td>
+                                <td>{{ user.email|default:"-" }}</td>
+                                <td>
+                                    {% if user.is_superuser %}
+                                        <span class="badge bg-warning text-dark">Sim</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Não</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if user.is_active %}
+                                        <span class="badge bg-success">Ativo</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inativo</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.date_joined|date:"d/m/Y" }}</td>
+                                <td>
+                                    {% if user != request.user %}
+                                    <a href="{% url 'desativar_usuario' user.id %}" class="btn btn-sm {% if user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}"
+                                       onclick="return confirm('Tem certeza que deseja {% if user.is_active %}desativar{% else %}ativar{% endif %} este usuário?')">
+                                        <i class="fas {% if user.is_active %}fa-ban{% else %}fa-check{% endif %} me-1"></i>
+                                        {% if user.is_active %}Desativar{% else %}Ativar{% endif %}
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;"><i class="fas fa-user-plus me-2 text-warning"></i>Novo Usuário</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2">{{ form.non_field_errors.0 }}</div>
+                    {% endif %}
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-gold">Criar Usuário</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

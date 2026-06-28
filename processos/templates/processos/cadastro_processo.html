@@ -1,0 +1,163 @@
+{% extends 'processos/base.html' %}
+
+{% block titulo %}Cadastrar Novo Processo - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<style>
+    .page-wrapper {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 100px);
+        padding: 40px 20px;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-card-header {
+        background-color: #2B1E16;
+        color: #ffffff;
+        padding: 24px 30px;
+        border-bottom: 4px solid #D4AF37;
+    }
+
+    .form-card-title {
+        font-family: 'Georgia', serif;
+        color: #D4AF37;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .form-label {
+        color: #2B1E16;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #D4AF37;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    }
+
+    .btn-gold {
+        background-color: #D4AF37;
+        color: #2B1E16;
+        font-weight: 700;
+        border: 2px solid #D4AF37;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-gold:hover {
+        background-color: #2B1E16;
+        color: #D4AF37;
+        border-color: #2B1E16;
+    }
+
+    .btn-outline-cancel {
+        color: #6c757d;
+        border: 1px solid #ced4da;
+        font-weight: 500;
+    }
+
+    .btn-outline-cancel:hover {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="form-card">
+            <div class="form-card-header d-flex align-items-center">
+                <i class="fas fa-folder-plus text-warning me-3" style="font-size: 1.6rem;"></i>
+                <div>
+                    <h4 class="form-card-title">Abertura de Demanda</h4>
+                    <p class="text-white-50 small mb-0">Insira as informações básicas para iniciar o monitoramento do processo</p>
+                </div>
+            </div>
+
+            <form method="POST" class="p-4 p-md-5">
+                {% csrf_token %}
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-hashtag me-1 text-muted"></i> {{ form.numero_processo.label }}</label>
+                        <div class="{% if form.numero_processo.errors %}is-invalid{% endif %}">
+                            {{ form.numero_processo }}
+                        </div>
+                        {% if form.numero_processo.errors %}
+                            <div class="text-danger small mt-1">{{ form.numero_processo.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-toggle-on me-1 text-muted"></i> {{ form.status.label }}</label>
+                        {{ form.status }}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-user me-1 text-muted"></i> {{ form.cliente.label }}</label>
+                        <div class="input-group">
+                            {{ form.cliente }}
+                            <button class="btn btn-gold" type="button" data-bs-toggle="modal" data-bs-target="#modalClienteRapido">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-user-shield me-1 text-muted"></i> {{ form.advogado.label }}</label>
+                        <div class="input-group">
+                            {{ form.advogado }}
+                            <button class="btn btn-gold" type="button" data-bs-toggle="modal" data-bs-target="#modalAdvogadoRapido">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-gavel me-1 text-muted"></i> {{ form.juiz.label }}</label>
+                        <div class="input-group">
+                            {{ form.juiz }}
+                            <button class="btn btn-gold" type="button" data-bs-toggle="modal" data-bs-target="#modalJuizRapido">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-building me-1 text-muted"></i> {{ form.forum.label }}</label>
+                        <div class="input-group">
+                            {{ form.forum }}
+                            <button class="btn btn-gold" type="button" data-bs-toggle="modal" data-bs-target="#modalForumRapido">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label"><i class="fas fa-align-left me-1 text-muted"></i> {{ form.resumo_sentenca.label }}</label>
+                        {{ form.resumo_sentenca }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top" style="border-color: #f1f3f5 !important;">
+                    <a href="{% url 'dashboard' %}" class="btn px-4 py-2 btn-outline-cancel">Cancelar</a>
+                    <button type="submit" class="btn px-5 py-2 btn-gold shadow-sm">
+                        <i class="fas fa-save me-2"></i>Salvar Cadastro
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'processos/modais_rapidos.html' %}
+{% endblock %}

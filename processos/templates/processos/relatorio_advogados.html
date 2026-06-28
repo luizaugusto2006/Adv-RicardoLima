@@ -1,0 +1,124 @@
+{% extends 'processos/base.html' %}
+{% load static %}
+
+{% block titulo %}Relatório por Advogado - Ricardo Lima Advogados{% endblock %}
+
+{% block conteudo %}
+<style>
+    .page-wrapper {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 100px);
+        padding: 40px 20px;
+    }
+    .dashboard-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+    .card-header-gold {
+        background-color: #2B1E16;
+        color: #ffffff;
+        padding: 16px 24px;
+        border-bottom: 3px solid #D4AF37;
+        font-family: 'Georgia', serif;
+    }
+    .stat-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: transform 0.2s ease;
+    }
+    .stat-card:hover { transform: translateY(-3px); }
+    .stat-number { font-size: 1.8rem; font-weight: 700; color: #2B1E16; line-height: 1.2; }
+    .stat-label { font-size: 0.85rem; font-weight: 600; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-icon-box { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .btn-gold { background-color: #D4AF37; color: #2B1E16; font-weight: 600; border: 1px solid #D4AF37; }
+    .btn-gold:hover { background-color: #2B1E16; color: #D4AF37; border-color: #2B1E16; }
+    .table th { color: #2B1E16; font-weight: 600; background-color: #f1f3f5; }
+    @media print {
+        header, .custom-sidebar-panel { display: none !important; }
+        .main-content-wrapper { margin-top: 0 !important; }
+        .page-wrapper { padding: 10px !important; }
+        .btn { display: none !important; }
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-secondary mb-0">
+                <i class="fas fa-user-tie me-2" style="color: #D4AF37;"></i> Relatório por Advogado
+            </h4>
+            <button class="btn btn-gold" onclick="window.print()">
+                <i class="fas fa-print me-1"></i> Imprimir
+            </button>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="stat-card" style="border-left: 4px solid #2B1E16;">
+                    <div>
+                        <div class="stat-number">{{ advogados|length }}</div>
+                        <div class="stat-label">Total de Advogados</div>
+                    </div>
+                    <div class="stat-icon-box" style="background-color: rgba(43, 30, 22, 0.1); color: #2B1E16;">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header-gold">
+                <span class="fs-5"><i class="fas fa-list me-2 text-warning"></i>Advogados e Processos</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Advogado</th>
+                                <th>OAB</th>
+                                <th>Total Processos</th>
+                                <th>Processos Ativos</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for adv in advogados %}
+                            <tr>
+                                <td class="fw-bold ps-4">{{ adv.nome }}</td>
+                                <td>{{ adv.oab }}</td>
+                                <td><span class="badge bg-secondary">{{ adv.total_processos }}</span></td>
+                                <td>
+                                    <span class="badge {% if adv.processos_ativos > 0 %}bg-success{% else %}bg-light text-muted{% endif %}">
+                                        {{ adv.processos_ativos }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{% url 'relatorio_detalhe_advogado' adv.id %}" class="btn btn-sm btn-outline-dark">
+                                        <i class="fas fa-eye me-1"></i>Detalhes
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">Nenhum advogado cadastrado.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Sistema Ricardo Lima Advogados{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    {% load static %}
+
+    <style>
+        header {
+            background-color: #2B1E16;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1040;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #D4AF37;
+        }
+
+        .base-hamburger-btn {
+            background: transparent;
+            border: 2px solid #D4AF37;
+            color: #D4AF37;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin-right: 20px;
+        }
+
+        .base-hamburger-btn:hover {
+            background-color: #D4AF37;
+            color: #2B1E16;
+            transform: scale(1.05);
+        }
+
+        .brand-nav-wrapper {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .main-logo-img {
+            height: 75px;
+            width: auto;
+            display: block;
+        }
+
+        .fallback-brand-text {
+            color: #ffffff;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+            margin: 0;
+            display: none;
+        }
+
+        .custom-sidebar-panel {
+            background-color: #2B1E16 !important;
+            border-right: 3px solid #D4AF37;
+            color: #ffffff;
+            width: 330px !important;
+            z-index: 2050 !important;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .custom-sidebar-panel .offcanvas-header {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 24px;
+        }
+
+        .custom-sidebar-panel .offcanvas-title {
+            color: #D4AF37;
+            font-family: 'Georgia', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .custom-sidebar-panel .btn-close {
+            filter: invert(1) sepia(1) saturate(5) hue-rotate(15deg);
+        }
+
+        .sidebar-menu-link {
+            color: #e9ecef;
+            text-decoration: none;
+            padding: 12px 16px;
+            display: block;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .sidebar-menu-link:hover {
+            background-color: rgba(212, 175, 55, 0.12);
+            color: #D4AF37;
+            padding-left: 22px;
+        }
+
+        .sidebar-menu-link i {
+            width: 25px;
+            color: #D4AF37;
+        }
+
+        .sidebar-section-title {
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            padding: 8px 16px 4px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-nav-wrapper">
+        <button id="btnHamburgerGlobal" class="base-hamburger-btn" type="button">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="{% static 'processos/imagens/logo.png' %}" alt="Logo Ricardo Lima Advogados" class="main-logo-img">
+        <h3 class="fallback-brand-text ms-3">Ricardo Lima Advogados</h3>
+    </div>
+    <div class="d-none d-md-block text-white-50 small fw-bold text-uppercase tracking-widest">
+        Painel Operacional
+    </div>
+</header>
+
+<div class="main-content-wrapper" style="margin-top: 100px;">
+    {% block conteudo %}
+    {% endblock %}
+</div>
+
+<div class="offcanvas offcanvas-start custom-sidebar-panel" tabindex="-1" id="sidebarLegalMenu" aria-labelledby="sidebarLegalMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarLegalMenuLabel">
+            <i class="fas fa-gavel me-2"></i>Navegação
+        </h5>
+        <button type="button" id="btnCloseSidebarGlobal" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body p-4 d-flex flex-column justify-content-between">
+        <div>
+            <p class="sidebar-section-title">Principal</p>
+
+            <a href="{% url 'dashboard' %}" class="sidebar-menu-link">
+                <i class="fas fa-home"></i> Início
+            </a>
+            <a href="{% url 'painel_analitico' %}" class="sidebar-menu-link">
+                <i class="fas fa-chart-pie"></i> Painel Analítico
+            </a>
+            <a href="{% url 'buscar_processos' %}" class="sidebar-menu-link">
+                <i class="fas fa-search"></i> Buscar Processos
+            </a>
+
+            <p class="sidebar-section-title">Cadastros</p>
+
+            <a href="{% url 'cadastrar_processo' %}" class="sidebar-menu-link">
+                <i class="fas fa-folder-plus"></i> Novo Processo
+            </a>
+            <a href="{% url 'cadastrar_cliente' %}" class="sidebar-menu-link">
+                <i class="fas fa-user-plus"></i> Novo Cliente
+            </a>
+            <a href="{% url 'cadastrar_advogado' %}" class="sidebar-menu-link">
+                <i class="fas fa-user-tie"></i> Novo Advogado
+            </a>
+            <a href="{% url 'cadastrar_juiz' %}" class="sidebar-menu-link">
+                <i class="fas fa-gavel"></i> Novo Juiz
+            </a>
+            <a href="{% url 'cadastrar_forum' %}" class="sidebar-menu-link">
+                <i class="fas fa-building"></i> Novo Fórum
+            </a>
+
+            <p class="sidebar-section-title">Relatórios</p>
+
+            <a href="{% url 'relatorio_clientes' %}" class="sidebar-menu-link">
+                <i class="fas fa-users"></i> Por Cliente
+            </a>
+            <a href="{% url 'relatorio_advogados' %}" class="sidebar-menu-link">
+                <i class="fas fa-user-shield"></i> Por Advogado
+            </a>
+            <a href="{% url 'relatorio_juizes' %}" class="sidebar-menu-link">
+                <i class="fas fa-gavel"></i> Por Juiz
+            </a>
+
+            <p class="sidebar-section-title">Administração</p>
+
+            {% if request.user.is_superuser %}
+            <a href="{% url 'gerenciar_usuarios' %}" class="sidebar-menu-link">
+                <i class="fas fa-user-cog"></i> Gerenciar Usuários
+            </a>
+            {% endif %}
+            <a href="/admin/" target="_blank" class="sidebar-menu-link">
+                <i class="fas fa-user-shield"></i> Admin Django
+            </a>
+        </div>
+
+        <div class="border-top pt-3" style="border-color: rgba(212, 175, 55, 0.15) !important;">
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-light text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; font-size: 0.9rem;">{{ request.user.username|slice:":2"|upper }}</div>
+                <div class="ms-3">
+                    <p class="mb-0 small fw-bold text-white" style="line-height: 1.2;">{{ request.user.username }}</p>
+                    <span class="badge bg-success-subtle text-success p-0" style="font-size: 0.7rem;">Sessão Ativa</span>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger w-100 fw-bold" style="font-size: 0.85rem;">
+                <i class="fas fa-sign-out-alt me-1"></i> Sair do Sistema
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
+
+<script>
+    function aplicarMascaraCPF(value) {
+        let v = value.replace(/\D/g, "");
+        v = v.substring(0, 11);
+        v = v.replace(/^(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+        v = v.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+        return v;
+    }
+
+    function aplicarMascaraTelefone(value) {
+        let v = value.replace(/\D/g, "");
+        v = v.substring(0, 11);
+        v = v.replace(/^(\d{2})(\d)/, "($1) $2");
+        v = v.replace(/(\d{5})(\d{4})$/, "$1-$2");
+        return v;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.body.addEventListener("input", function(e) {
+            if (e.target.classList.contains("mascara-cpf")) {
+                e.target.value = aplicarMascaraCPF(e.target.value);
+            }
+            if (e.target.classList.contains("mascara-telefone")) {
+                e.target.value = aplicarMascaraTelefone(e.target.value);
+            }
+        });
+
+        var btnAbrir = document.getElementById('btnHamburgerGlobal');
+        var btnFechar = document.getElementById('btnCloseSidebarGlobal');
+        var menu = document.getElementById('sidebarLegalMenu');
+        var backdrop = document.createElement('div');
+        backdrop.className = 'offcanvas-backdrop fade';
+
+        if (btnAbrir && menu) {
+            btnAbrir.addEventListener('click', function(e) {
+                e.preventDefault();
+                menu.classList.add('show');
+                menu.style.visibility = 'visible';
+                document.body.style.overflow = 'hidden';
+                document.body.appendChild(backdrop);
+                setTimeout(function() { backdrop.classList.add('show'); }, 10);
+            });
+        }
+
+        function fecharMenu() {
+            if (menu) {
+                menu.classList.remove('show');
+                backdrop.classList.remove('show');
+                document.body.style.overflow = '';
+                setTimeout(function() {
+                    if (backdrop.parentNode) { backdrop.parentNode.removeChild(backdrop); }
+                    menu.style.visibility = '';
+                }, 300);
+            }
+        }
+
+        if (btnFechar) { btnFechar.addEventListener('click', fecharMenu); }
+        backdrop.addEventListener('click', fecharMenu);
+
+        if (menu) {
+            var links = menu.querySelectorAll('.sidebar-menu-link');
+            links.forEach(function(link) {
+                if (!link.getAttribute('target')) {
+                    link.addEventListener('click', fecharMenu);
+                }
+            });
+        }
+
+        var logo = document.querySelector('.main-logo-img');
+        if (logo) {
+            logo.onerror = function() {
+                this.style.display = 'none';
+                var textFallback = document.querySelector('.fallback-brand-text');
+                if (textFallback) textFallback.style.display = 'block';
+            };
+        }
+    });
+</script>
+
+</body>
+</html>

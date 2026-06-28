@@ -1,0 +1,304 @@
+<div class="modal fade" id="modalClienteRapido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;"><i class="fas fa-user-plus me-2 text-warning"></i>Cliente Rápido</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formClienteRapido">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Nome Completo</label>
+                        <input type="text" name="nome" id="input_cliente_nome" class="form-control" required>
+                        <div class="invalid-feedback" id="erro_cliente_nome"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CPF</label>
+                        <input type="text" name="cpf" class="form-control mascara-cpf" required>
+                        <div class="invalid-feedback" id="erro_cliente_cpf"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Telefone</label>
+                        <input type="text" name="telefone" id="input_cliente_telefone" class="form-control mascara-telefone" maxlength="15" required>
+                        <div class="invalid-feedback" id="erro_cliente_telefone"></div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-gold">Salvar Cliente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAdvogadoRapido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;"><i class="fas fa-user-tie me-2 text-warning"></i>Advogado Rápido</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAdvogadoRapido">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Advogado</label>
+                        <input type="text" name="nome" id="input_advogado_nome" class="form-control" required>
+                        <div class="invalid-feedback" id="erro_advogado_nome"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">OAB</label>
+                        <input type="text" name="oab" id="input_advogado_oab" class="form-control" required>
+                        <div class="invalid-feedback" id="erro_advogado_oab"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" name="email" id="input_advogado_email" class="form-control">
+                        <div class="invalid-feedback" id="erro_advogado_email"></div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-gold">Salvar Advogado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalJuizRapido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;"><i class="fas fa-gavel me-2 text-warning"></i>Juiz Rápido</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formJuizRapido">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Juiz</label>
+                        <input type="text" name="nome" id="input_juiz_nome" class="form-control" required>
+                        <div class="invalid-feedback" id="erro_juiz_nome"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" name="email" id="input_juiz_email" class="form-control">
+                        <div class="invalid-feedback" id="erro_juiz_email"></div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-gold">Salvar Juiz</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalForumRapido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-top: 4px solid #D4AF37;">
+            <div class="modal-header" style="background-color: #2B1E16; color: white;">
+                <h5 class="modal-title" style="font-family: 'Georgia', serif;"><i class="fas fa-building me-2 text-warning"></i>Fórum Rápido</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formForumRapido">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Fórum</label>
+                        <input type="text" name="nome" id="input_forum_nome" class="form-control" required>
+                        <div class="invalid-feedback" id="erro_forum_nome"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cidade</label>
+                        <input type="text" name="cidade" id="input_forum_cidade" class="form-control">
+                        <div class="invalid-feedback" id="erro_forum_cidade"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">UF</label>
+                        <input type="text" name="uf" id="input_forum_uf" class="form-control" maxlength="2" placeholder="Ex: SP">
+                        <div class="invalid-feedback" id="erro_forum_uf"></div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-gold">Salvar Fórum</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-gold {
+        background-color: #D4AF37;
+        color: #2B1E16;
+        font-weight: 700;
+        border: 2px solid #D4AF37;
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-gold:hover {
+        background-color: #2B1E16;
+        color: #D4AF37;
+        border-color: #2B1E16;
+    }
+    .form-control:focus {
+        border-color: #D4AF37;
+        box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+
+    function postForm(url, formData, successCallback, errorCallback) {
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(result => {
+            if (result.status === 200 && result.body.success) {
+                successCallback(result.body);
+            } else {
+                errorCallback(result.body.errors || {});
+            }
+        });
+    }
+
+    function limparErros(formId) {
+        var form = document.getElementById(formId);
+        if (form) {
+            form.querySelectorAll('.form-control').forEach(function(input) {
+                input.classList.remove('is-invalid');
+            });
+            form.querySelectorAll('.invalid-feedback').forEach(function(div) {
+                div.innerText = '';
+            });
+        }
+    }
+
+    function fecharModal(modalId) {
+        var modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+        if (modal) modal.hide();
+    }
+
+    // Cliente
+    document.getElementById('formClienteRapido')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        limparErros('formClienteRapido');
+        var formData = new FormData(this);
+        postForm("{% url 'cadastrar_cliente' %}", formData,
+            function(data) {
+                var select = document.querySelector('select[name="cliente"]');
+                if (select) {
+                    var option = new Option(data.nome, data.id, true, true);
+                    select.add(option);
+                }
+                fecharModal('modalClienteRapido');
+                e.target.reset();
+            },
+            function(errors) {
+                Object.keys(errors).forEach(function(campo) {
+                    var input = document.getElementById('input_cliente_' + campo);
+                    var erroDiv = document.getElementById('erro_cliente_' + campo);
+                    if (input && erroDiv) {
+                        input.classList.add('is-invalid');
+                        erroDiv.innerText = errors[campo];
+                    }
+                });
+            }
+        );
+    });
+
+    // Advogado
+    document.getElementById('formAdvogadoRapido')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        limparErros('formAdvogadoRapido');
+        var formData = new FormData(this);
+        postForm("{% url 'cadastrar_advogado' %}", formData,
+            function(data) {
+                var select = document.querySelector('select[name="advogado"]');
+                if (select) {
+                    var option = new Option(data.nome, data.id, true, true);
+                    select.add(option);
+                }
+                fecharModal('modalAdvogadoRapido');
+                e.target.reset();
+            },
+            function(errors) {
+                Object.keys(errors).forEach(function(campo) {
+                    var input = document.getElementById('input_advogado_' + campo);
+                    var erroDiv = document.getElementById('erro_advogado_' + campo);
+                    if (input && erroDiv) {
+                        input.classList.add('is-invalid');
+                        erroDiv.innerText = errors[campo];
+                    }
+                });
+            }
+        );
+    });
+
+    // Juiz
+    document.getElementById('formJuizRapido')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        limparErros('formJuizRapido');
+        var formData = new FormData(this);
+        postForm("{% url 'cadastrar_juiz' %}", formData,
+            function(data) {
+                var select = document.querySelector('select[name="juiz"]');
+                if (select) {
+                    var option = new Option(data.nome, data.id, true, true);
+                    select.add(option);
+                }
+                fecharModal('modalJuizRapido');
+                e.target.reset();
+            },
+            function(errors) {
+                Object.keys(errors).forEach(function(campo) {
+                    var input = document.getElementById('input_juiz_' + campo);
+                    var erroDiv = document.getElementById('erro_juiz_' + campo);
+                    if (input && erroDiv) {
+                        input.classList.add('is-invalid');
+                        erroDiv.innerText = errors[campo];
+                    }
+                });
+            }
+        );
+    });
+
+    // Forum
+    document.getElementById('formForumRapido')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        limparErros('formForumRapido');
+        var formData = new FormData(this);
+        postForm("{% url 'cadastrar_forum' %}", formData,
+            function(data) {
+                var select = document.querySelector('select[name="forum"]');
+                if (select) {
+                    var option = new Option(data.nome, data.id, true, true);
+                    select.add(option);
+                }
+                fecharModal('modalForumRapido');
+                e.target.reset();
+            },
+            function(errors) {
+                Object.keys(errors).forEach(function(campo) {
+                    var input = document.getElementById('input_forum_' + campo);
+                    var erroDiv = document.getElementById('erro_forum_' + campo);
+                    if (input && erroDiv) {
+                        input.classList.add('is-invalid');
+                        erroDiv.innerText = errors[campo];
+                    }
+                });
+            }
+        );
+    });
+});
+</script>
